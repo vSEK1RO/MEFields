@@ -51,12 +51,16 @@ onMounted(() => {
     controls.update()
   })
 })
+
+import { Loader } from '/components'
 </script>
 
 <template>
-  <div>
-    <el-button class="rd-xl" type="danger">Danger</el-button>
-    <div class="text-red-500">Hello UnoCSS</div>
+  <div class="font-sans">
+    <c-loader/>
     <div id="renderer"/>
   </div>
 </template>
+
+<style>
+</style>
