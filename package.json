@@ -1,0 +1,28 @@
+{
+  "name": "mefields",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@iconify-json/material-symbols": "^1.2.8",
+    "element-plus": "^2.8.8",
+    "three": "^0.170.0",
+    "unocss-preset-fluid": "^1.0.2",
+    "unplugin-auto-import": "^0.18.5",
+    "unplugin-vue-components": "^0.27.4",
+    "vue": "^3.5.12"
+  },
+  "devDependencies": {
+    "@unocss/preset-uno": "^0.64.1",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "typescript": "~5.6.2",
+    "unocss": "^0.64.1",
+    "vite": "^5.4.10",
+    "vue-tsc": "^2.1.8"
+  }
+}
