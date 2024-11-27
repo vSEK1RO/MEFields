@@ -1,6 +1,9 @@
 <script lang="ts">
 import type { InjectionKey } from 'vue'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as THREE from 'three'
+import { provide, onMounted } from 'vue'
+import { OrbitControls } from 'three/examples/jsm/Addons.js'
+import { CLoader } from './components'
 
 export const KEY_APP: InjectionKey<AppContext> = Symbol('app')
 export interface AppContext {
@@ -12,11 +15,6 @@ export interface AppContext {
 </script>
 
 <script setup lang="ts">
-import * as THREE from 'three'
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { TransformControls } from 'three/addons/controls/TransformControls.js';
-import { provide, inject, onMounted } from 'vue'
-
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 
@@ -42,17 +40,13 @@ provide(KEY_APP, {
   renderer,
 })
 
-const ctx = inject(KEY_APP)
-
 onMounted(() => {
-  document.getElementById('renderer').appendChild(renderer.domElement)
+  document.getElementById('renderer')?.appendChild(renderer.domElement)
   renderer.setAnimationLoop(() => {
     renderer.render(scene, camera)
     controls.update()
   })
 })
-
-import { Loader } from '/components'
 </script>
 
 <template>
