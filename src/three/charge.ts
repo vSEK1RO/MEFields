@@ -10,12 +10,19 @@ export interface ChargeUserData extends ObjectUserData {
   charge: number
 }
 
-const sphereGeometry = new THREE.SphereGeometry(0.2, 16, 16);
+const sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
 const positiveMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const negativeMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+const neutralMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
 
 export function createCharge(obj: Charge) {
-  const charge = new THREE.Mesh(sphereGeometry, obj.userData.charge > 0 ? positiveMaterial : negativeMaterial)
+  let material = neutralMaterial
+  if (obj.userData.charge > 0) {
+    material = positiveMaterial
+  } else if (obj.userData.charge < 0) {
+    material = negativeMaterial
+  }
+  const charge = new THREE.Mesh(sphereGeometry, material)
   charge.position.copy(obj.position)
   return charge
 }
