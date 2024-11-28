@@ -50,9 +50,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="font-sans">
+  <div>
     <c-loader/>
-    <div id="renderer"/>
+    <div id="renderer" class="h-full w-full"/>
   </div>
 </template>
 
