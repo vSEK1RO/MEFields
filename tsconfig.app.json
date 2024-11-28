@@ -10,6 +10,7 @@
     /* Bundler mode */
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
+    "allowJs": true, 
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -22,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/plugins/index.ts", "src/plugins/GLTFCurveExtension.js"]
 }

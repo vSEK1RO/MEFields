@@ -19,20 +19,18 @@ export function importFile(callback: (file: File) => void) {
 </script>
 
 <script setup lang="ts">
-import LoadModel from '../workers/loadModel?worker'
 import { LoadModelRequest, LoadModelResponse } from '../workers/loadModel';
 import { KEY_APP } from '../App.vue';
 import { inject, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import * as THREE from 'three'
-import { ObjectUserData } from '../three/types';
-import { createCharge, getCharges } from '../three/charge';
+import { ObjectUserData, createCharge, getCharges } from '../three';
 
 const ctx = inject(KEY_APP)
 const loading = ref(false)
 
 function loadModel(file: File) {
-  const worker = new LoadModel()
+  const worker = new Worker(new URL('../workers/loadModel.ts', import.meta.url), { type: 'module' });
   worker.onmessage = (event: MessageEvent<LoadModelResponse>) => {
     switch (event.data.status) {
       case 'LOADED':
@@ -58,7 +56,7 @@ function createSceneObjects(objs: THREE.Object3D) {
     const userData = obj.userData as ObjectUserData
     switch (userData.type) {
       case 'CHARGE':
-        getCharges(obj).map(charge => group.add(createCharge(charge)))
+        getCharges(obj).forEach(charge => group.add(createCharge(charge)))
     }
   })
   ctx?.scene.add(group)

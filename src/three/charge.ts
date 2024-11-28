@@ -1,4 +1,4 @@
-import { ObjectUserData } from "./types"
+import { ObjectUserData } from "."
 import * as THREE from 'three'
 
 export interface Charge {
