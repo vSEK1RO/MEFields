@@ -1,13 +1,16 @@
-import { ObjectUserData } from "."
+import { IObject } from "."
 import * as THREE from 'three'
 
-export interface Charge {
-  userData: ChargeUserData
+export interface ICharge extends IObject {
+  userData: ICharge.UserData
   position: THREE.Vector3
 }
 
-export interface ChargeUserData extends ObjectUserData {
-  charge: number
+export namespace ICharge {
+
+  export interface UserData extends IObject.UserData {
+    charge: number
+  }
 }
 
 const sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
@@ -15,7 +18,7 @@ const positiveMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const negativeMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const neutralMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
 
-export function createCharge(obj: Charge) {
+export function createCharge(obj: ICharge) {
   let material = neutralMaterial
   if (obj.userData.charge > 0) {
     material = positiveMaterial
@@ -29,9 +32,9 @@ export function createCharge(obj: Charge) {
 
 export function getCharges(obj: THREE.Object3D) {
   const mesh = obj as THREE.Mesh
-  const charges: Charge[] = []
+  const charges: ICharge[] = []
   const positionAttr = mesh.geometry.attributes.position
-  const userData = mesh.userData as ChargeUserData
+  const userData = mesh.userData as ICharge.UserData
 
   for (let i = 0; i < positionAttr.count; i++) {
     const newCharge = {

@@ -24,7 +24,7 @@ import { KEY_APP } from '../App.vue';
 import { inject, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import * as THREE from 'three'
-import { ObjectUserData, createCharge, createWire, getCharges, getWires } from '../model';
+import { createCharge, createWire, getCharges, getWires, IObject } from '../model';
 
 const ctx = inject(KEY_APP)
 const loading = ref(false)
@@ -53,7 +53,7 @@ function loadModel(file: File) {
 function createSceneObjects(objs: THREE.Object3D) {
   const group = new THREE.Group()
   objs.traverse((obj: THREE.Object3D) => {
-    const userData = obj.userData as ObjectUserData
+    const userData = obj.userData as IObject.UserData
     switch (userData.type) {
       case 'CHARGE':
         getCharges(obj).forEach(charge => group.add(createCharge(charge)))
