@@ -1,3 +1,4 @@
+import { IAppContext } from '../App.vue'
 import { IObject } from "."
 import * as THREE from 'three'
 
@@ -18,16 +19,17 @@ const positiveMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const negativeMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const neutralMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
 
-export function createCharge(obj: ICharge) {
+export function createCharge(ctx: IAppContext, obj: ICharge) {
   let material = neutralMaterial
   if (obj.userData.charge > 0) {
     material = positiveMaterial
   } else if (obj.userData.charge < 0) {
     material = negativeMaterial
   }
-  const charge = new THREE.Mesh(sphereGeometry, material)
-  charge.position.copy(obj.position)
-  return charge
+  obj.three = new THREE.Mesh(sphereGeometry, material)
+  obj.three.position.copy(obj.position)
+  ctx.objects.push(obj)
+  ctx.scene.add(obj.three)
 }
 
 export function getCharges(obj: THREE.Object3D) {

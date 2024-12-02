@@ -1,4 +1,11 @@
 <script lang="ts">
+import { LoadModelRequest, LoadModelResponse } from '../workers/loadModel';
+import { KEY_APP } from '../App.vue';
+import { inject, onMounted, ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import * as THREE from 'three'
+import { createCharge, createWire, getCharges, getWires, IObject } from '../model';
+
 export function importFile(callback: (file: File) => void) {
     const elem = window.document.createElement('input');
     elem.type = 'file';
@@ -19,14 +26,8 @@ export function importFile(callback: (file: File) => void) {
 </script>
 
 <script setup lang="ts">
-import { LoadModelRequest, LoadModelResponse } from '../workers/loadModel';
-import { KEY_APP } from '../App.vue';
-import { inject, ref } from 'vue';
-import { ElMessage } from 'element-plus';
-import * as THREE from 'three'
-import { createCharge, createWire, getCharges, getWires, IObject } from '../model';
 
-const ctx = inject(KEY_APP)
+const ctx = inject(KEY_APP)!
 const loading = ref(false)
 
 function loadModel(file: File) {
@@ -35,6 +36,7 @@ function loadModel(file: File) {
     switch (event.data.status) {
       case 'LOADED':
         loading.value = false
+        ctx.loadedName.value = file.name
         const loader = new THREE.ObjectLoader()
         createSceneObjects(loader.parse(event.data.scene_json))
         return
@@ -50,27 +52,54 @@ function loadModel(file: File) {
   worker.postMessage({ file } as LoadModelRequest)
 }
 
+function uploadModel() {
+  ctx.objects.forEach(object => {
+    if (object.three) {
+      ctx.scene.remove(object.three)
+      console.log(ctx.scene.children.length)
+    }
+  })
+  ctx.objects = []
+  ctx.loadedName.value = null
+}
+
 function createSceneObjects(objs: THREE.Object3D) {
-  const group = new THREE.Group()
   objs.traverse((obj: THREE.Object3D) => {
     const userData = obj.userData as IObject.UserData
     switch (userData.type) {
       case 'CHARGE':
-        getCharges(obj).forEach(charge => group.add(createCharge(charge)))
+        getCharges(obj).forEach(charge => createCharge(ctx, charge))
         break
       case 'WIRE':
-        getWires(obj).forEach(wire => group.add(createWire(wire)))
+        getWires(obj).forEach(wire => createWire(ctx, wire))
         break
       default:
         break
     }
   })
-  ctx?.scene.add(group)
 }
+
+onMounted(async () => {
+  loading.value = true
+  const modelPath = 'MEFields.glb'
+  const blob = await (await fetch(modelPath)).blob()
+  const file = new File([blob], modelPath, { type: blob.type })
+  loadModel(file)
+})
 </script>
 
 <template>
-  <el-button :loading @click="importFile(loadModel)">
-    Import
-  </el-button>
+  <div class="f-p-sm">
+    <el-button class="prose-btn!" v-if="!ctx.loadedName.value" :loading @click="importFile(loadModel)">
+      <span> Import .glb </span>
+      <div class="i-material-symbols:download w-1em h-1em" />
+    </el-button>
+    <div v-else class="prose-caption-2 flex f-gap-sm items-center">
+      <el-button class="prose-btn!" type="danger" @click="uploadModel" >
+        <span> Unload model </span>
+        <div class="i-material-symbols:close-rounded w-1em h-1em" />
+      </el-button>
+      {{ ctx.loadedName }}
+    </div>
+  </div>
 </template>

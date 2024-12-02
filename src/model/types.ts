@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 export interface IObject {
-  mesh?: THREE.Mesh
+  three?: THREE.Object3D
   userData: IObject.UserData
 }
 

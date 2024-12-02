@@ -1,5 +1,6 @@
 import { IObject } from "."
 import * as THREE from 'three'
+import { IAppContext } from "../App.vue"
 
 export interface IWire extends IObject{
   userData: IWire.UserData
@@ -16,12 +17,14 @@ export namespace IWire {
 
 const material = new THREE.LineBasicMaterial({ color: 0xFF0000 })
 
-export function createWire(obj: IWire) {
+export function createWire(ctx: IAppContext, obj: IWire) {
   const vertices = new Float32Array([...obj.start.toArray(), ...obj.end.toArray()])
   const geometry = new THREE.BufferGeometry()
   geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
 
-  return new THREE.Line(geometry, material)
+  obj.three = new THREE.Line(geometry, material)
+  ctx.objects.push(obj)
+  ctx.scene.add(obj.three)
 }
 
 export function getWires(obj: THREE.Object3D) {

@@ -1,16 +1,16 @@
 <script lang="ts">
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import * as THREE from 'three'
-import { provide, onMounted } from 'vue'
+import { provide, onMounted, ref } from 'vue'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import { CLoader } from './components'
+import { IObject } from './model'
 
-export const KEY_APP: InjectionKey<AppContext> = Symbol('app')
-export interface AppContext {
+export const KEY_APP: InjectionKey<IAppContext> = Symbol('app')
+export interface IAppContext {
   scene: THREE.Scene
-  camera: THREE.PerspectiveCamera
-  controls: OrbitControls
-  renderer: THREE.WebGLRenderer
+  objects: IObject[]
+  loadedName: Ref<string | null>
 }
 </script>
 
@@ -33,9 +33,8 @@ controls.autoRotateSpeed = 0
 
 provide(KEY_APP, {
   scene,
-  camera,
-  controls,
-  renderer,
+  objects: [],
+  loadedName: ref(null),
 })
 
 onMounted(() => {
