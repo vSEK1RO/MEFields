@@ -89,15 +89,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="f-p-sm">
+  <div>
     <el-button class="prose-btn!" v-if="!ctx.loadedName.value" :loading @click="importFile(loadModel)">
-      <span> Import .glb </span>
-      <div class="i-material-symbols:download w-1em h-1em" />
+      <div class="flex f-gap-xs">
+        <span> Import .glb </span>
+        <div class="i-material-symbols:download w-1em h-1em" />
+      </div>
     </el-button>
     <div v-else class="prose-caption-2 flex f-gap-sm items-center">
       <el-button class="prose-btn!" type="danger" @click="uploadModel" >
-        <span> Unload model </span>
-        <div class="i-material-symbols:close-rounded w-1em h-1em" />
+        <div class="flex f-gap-xs">
+          <span> Unload model </span>
+          <div class="i-material-symbols:close-rounded w-1em h-1em" />
+        </div>
       </el-button>
       {{ ctx.loadedName }}
     </div>

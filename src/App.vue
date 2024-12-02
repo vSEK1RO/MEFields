@@ -3,7 +3,7 @@ import type { InjectionKey, Ref } from 'vue'
 import * as THREE from 'three'
 import { provide, onMounted, ref } from 'vue'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
-import { CLoader } from './components'
+import { CLoader, CElectricField, CMagneticField } from './components'
 import { IObject } from './model'
 
 export const KEY_APP: InjectionKey<IAppContext> = Symbol('app')
@@ -48,8 +48,12 @@ onMounted(() => {
 
 <template>
   <div>
-    <c-loader/>
-    <div id="renderer" class="h-full w-full"/>
+    <div id="renderer" class="absolute h-full w-full z--1 overflow-hidden"/>
+    <div class="flex flex-col f-gap-xs f-p-sm">
+      <c-loader/>
+      <c-electric-field/>
+      <c-magnetic-field/>
+    </div>
   </div>
 </template>
 
