@@ -24,7 +24,7 @@ function onClick() {
     emit('active', props.active)
   } else {
     emit('click', props.inactive)
-    emit('click', props.inactive)
+    emit('inactive', props.inactive)
   }
 }
 </script>
