@@ -36,7 +36,7 @@ function onClick() {
       :disabled
       :loading
       :type="active ? 'primary' : 'default'"
-      class="prose-btn!"
+      class="prose-btn! w-full"
     >
       <slot />
     </el-button>

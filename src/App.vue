@@ -49,7 +49,7 @@ onMounted(() => {
 <template>
   <div>
     <div id="renderer" class="absolute h-full w-full z--1 overflow-hidden"/>
-    <div class="flex flex-col f-gap-xs f-p-sm">
+    <div class="flex flex-col f-gap-xs f-p-sm w-fit">
       <c-loader/>
       <c-electric-field/>
       <c-magnetic-field/>

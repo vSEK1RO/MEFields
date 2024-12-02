@@ -1,5 +1,5 @@
 <script lang="ts">
-import { LoadModelRequest, LoadModelResponse } from '../workers/loadModel';
+import { ILoadModelWorker } from '../workers';
 import { KEY_APP } from '../App.vue';
 import { inject, onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
@@ -32,7 +32,7 @@ const loading = ref(false)
 
 function loadModel(file: File) {
   const worker = new Worker(new URL('../workers/loadModel.ts', import.meta.url), { type: 'module' });
-  worker.onmessage = (event: MessageEvent<LoadModelResponse>) => {
+  worker.onmessage = (event: MessageEvent<ILoadModelWorker.Response>) => {
     switch (event.data.status) {
       case 'LOADED':
         loading.value = false
@@ -49,14 +49,13 @@ function loadModel(file: File) {
         return
     }
   }
-  worker.postMessage({ file } as LoadModelRequest)
+  worker.postMessage({ file } as ILoadModelWorker.Request)
 }
 
 function uploadModel() {
   ctx.objects.forEach(object => {
     if (object.three) {
       ctx.scene.remove(object.three)
-      console.log(ctx.scene.children.length)
     }
   })
   ctx.objects = []
@@ -90,7 +89,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <el-button class="prose-btn!" v-if="!ctx.loadedName.value" :loading @click="importFile(loadModel)">
+    <el-button class="prose-btn! w-full" v-if="!ctx.loadedName.value" :loading @click="importFile(loadModel)">
       <div class="flex f-gap-xs">
         <span> Import .glb </span>
         <div class="i-material-symbols:download w-1em h-1em" />

@@ -8,10 +8,9 @@ const ctx = inject(KEY_APP)!
 
 <template>
   <div>
-    <c-switch :disabled="!ctx.loadedName">
+    <c-switch :disabled="!ctx.loadedName.value">
       <div class="flex f-gap-xs">
         <span> Show magnetic field </span>
-        <!-- <div class="i-material-symbols:panorama-photosphere-outline w-1em h-1em"/> -->
       </div>
     </c-switch>
   </div>
