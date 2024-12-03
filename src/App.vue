@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { provide, onMounted, ref } from 'vue'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import { CLoader, CElectricField, CMagneticField, CSwitch } from './components'
-import { IObject } from './model'
+import { IObject, createAxis } from './model'
 
 export const KEY_APP: InjectionKey<IAppContext> = Symbol('app')
 export interface IAppContext {
@@ -25,6 +25,7 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xFFFFFF)
+scene.add(createAxis())
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position.set(5, 5, 5)
