@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { InjectionKey, Ref } from 'vue'
 import * as THREE from 'three'
-import { provide, onMounted, ref, inject } from 'vue'
+import { provide, onMounted, ref } from 'vue'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import { CLoader, CElectricField, CMagneticField, CSwitch } from './components'
 import { IObject } from './model'
@@ -13,6 +13,7 @@ export interface IAppContext {
   camera_pos: Ref<THREE.Vector3>
   objects: Ref<IObject[]>
   electric: THREE.Object3D[]
+  magnetic: THREE.Object3D[]
   loadedName: Ref<string | null>
   workerEnabled: Ref<boolean>
 }
@@ -43,6 +44,7 @@ const ctx = {
   camera_pos,
   objects: ref([]),
   electric: [],
+  magnetic: [],
   loadedName: ref(null),
   workerEnabled: ref(false),
 }

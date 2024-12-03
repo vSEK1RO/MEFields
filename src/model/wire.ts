@@ -37,6 +37,17 @@ export function createWire(ctx: IAppContext, obj: IWire) {
   ctx.scene.add(obj.three)
 }
 
+export function createMagneticVector(dir: THREE.Vector3, pos: THREE.Vector3) {
+  const _dir = new THREE.Vector3(dir.x, dir.y, dir.z)
+  const _pos = new THREE.Vector3(pos.x, pos.y, pos.z)
+  return new THREE.ArrowHelper(
+    _dir.clone().normalize(),
+    _pos,
+    _dir.length(),
+    0xFF0000,
+  )
+}
+
 export function getWires(obj: THREE.Object3D) {
   const line = obj as THREE.Line
   const wires: IWire[] = []
@@ -56,7 +67,7 @@ export function getWires(obj: THREE.Object3D) {
         end,
       })
     }
-    if (!userData.curve.closed) {
+    if (userData.curve.closed) {
       wires.push({
         userData: {
           type: userData.type,
