@@ -33,7 +33,7 @@ export function createElectricVector(dir: THREE.Vector3, pos: THREE.Vector3) {
   return new THREE.ArrowHelper(
     _dir.clone().normalize(),
     _pos,
-    _dir.length(),
+    Math.min(_dir.length(), 1),
     0x0000FF,
   )
 }

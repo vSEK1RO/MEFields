@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { IWorker } from "./types"
 import { ICharge, IObject } from '../model'
-import { gridPositions, ICameraBox, OFFSET } from '../utils/gridPositions'
+import { gridPositions, ICameraBox } from '../utils/gridPositions'
 
 export namespace IElectricFieldWorker {
   export interface Request {
@@ -33,7 +33,6 @@ export function calcElectricField(pos: THREE.Vector3, objs: IObject[]) {
     const charge = obj as ICharge
     const vec = pos.clone().sub(charge.position)
     const distance = vec.length()
-    if (distance < OFFSET / 2) return
 
     vec.normalize().multiplyScalar(k * charge.userData.charge / distance ** 2)
     dir.add(vec)

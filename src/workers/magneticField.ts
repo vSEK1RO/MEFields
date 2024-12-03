@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import { IObject, IWire } from '../model'
-import { OFFSET } from '../utils/gridPositions'
 
 export function calcMagneticField(pos: THREE.Vector3, objs: IObject[]) {
   const dir = new THREE.Vector3()
@@ -25,9 +24,7 @@ export function calcMagneticField(pos: THREE.Vector3, objs: IObject[]) {
     const direction = new THREE.Vector3().crossVectors(m1m2_v, m0m_v).normalize()
     const magnitude = wire.userData.amperage * ( m0m2 / mm2 + m0m1 / mm1) / m0m
 
-    if (m0m > OFFSET / 2) {
-      dir.add(direction.multiplyScalar(magnitude))
-    }
+    dir.add(direction.multiplyScalar(magnitude))
   })
   return { dir, pos }
 }
