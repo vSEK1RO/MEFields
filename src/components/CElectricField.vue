@@ -26,7 +26,7 @@ function computeField() {
   }
   worker.postMessage({
     objs_json: JSON.stringify(ctx.objects.value),
-    ...camera_box.value,
+    camera_box_json: JSON.stringify(camera_box.value),
   } as IElectricFieldWorker.Request)
 }
 
