@@ -4,7 +4,7 @@ import { KEY_APP } from '../App.vue';
 import { inject, onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import * as THREE from 'three'
-import { createCharge, createWire, getCharges, getWires, IObject } from '../model';
+import { createCharge, createParticle, createWire, getCharges, getParticle, getWires, IObject } from '../model';
 
 export function importFile(callback: (file: File) => void) {
     const elem = window.document.createElement('input');
@@ -67,6 +67,9 @@ function createSceneObjects(objs: THREE.Object3D) {
         break
       case 'WIRE':
         getWires(obj).forEach(wire => createWire(ctx, wire))
+        break
+      case 'PARTICLE':
+        createParticle(ctx, getParticle(obj))
         break
       default:
         break

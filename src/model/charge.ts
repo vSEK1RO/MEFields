@@ -1,5 +1,5 @@
 import { IAppContext } from '../App.vue'
-import { IObject } from "."
+import { IObject, negativeMaterial, neutralMaterial, positiveMaterial, sphereGeometry } from "."
 import * as THREE from 'three'
 
 export interface ICharge extends IObject {
@@ -13,11 +13,6 @@ export namespace ICharge {
     charge: number
   }
 }
-
-const sphereGeometry = new THREE.SphereGeometry(0.1, 16, 16);
-const positiveMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const negativeMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const neutralMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
 
 export function createCharge(ctx: IAppContext, obj: ICharge) {
   let material = neutralMaterial
