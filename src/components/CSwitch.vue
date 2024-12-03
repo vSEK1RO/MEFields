@@ -29,8 +29,11 @@ function onClick() {
 }
 
 onMounted(() => {
-  emit('active', props.active)
-  emit('inactive', props.inactive)
+  if (active.value) {
+    emit('active', props.active)
+  } else {
+    emit('inactive', props.inactive)
+  }
 })
 </script>
 

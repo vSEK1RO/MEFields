@@ -14,7 +14,7 @@ const active = ref(false)
 const { camera_box } = useCameraBox(ctx)
 
 function computeField() {
-  if (ctx.workerEnabled) {
+  if (ctx.workerEnabled.value) {
     const worker = new Worker(new URL('../workers/electricField.ts', import.meta.url), { type: 'module' });
     worker.onmessage = (event: MessageEvent<IElectricFieldWorker.Response>) => {
       if (event.data.status === 'LOADED') {
