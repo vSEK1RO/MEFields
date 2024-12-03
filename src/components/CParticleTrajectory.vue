@@ -9,16 +9,17 @@ import { calcMagneticField } from '../workers/magneticField';
 const ctx = inject(KEY_APP)!
 
 const TIME_SIZE = 1e3
-const TIME_STEP = 1e-12
+const TIME_STEP = 1e-2
 
 function computeTrajectory() {
+  const trajectories: THREE.Object3D[]= []
   ctx.objects.value.forEach(obj => {
     if (obj.userData.type === 'PARTICLE') {
       let points: THREE.Vector3[] = []
-      let particle = JSON.parse(JSON.stringify(obj))
+      let particle: IParticle = JSON.parse(JSON.stringify(obj))
       particle.position = (obj as IParticle).position.clone()
       particle.direction = (obj as IParticle).direction.clone()
-      for (let time = 0; time < TIME_SIZE * TIME_STEP; time += TIME_STEP) {
+      for (let time = 0; time < TIME_SIZE; time++) {
         points.push(particle.position.clone())
         particle = updatePosition(particle)
       }
@@ -27,11 +28,12 @@ function computeTrajectory() {
       const material = new THREE.LineBasicMaterial({ color: 0x0000FF });
       const trajectory = new THREE.Line(geometry, material)
 
-      removeTrajectory()
-      ctx.scene.add(trajectory)
-      ctx.trajectory.push(trajectory)
+      trajectories.push(trajectory)
     }
   })
+  removeTrajectory()
+  ctx.scene.add(...trajectories)
+  ctx.trajectory.push(...trajectories)
 }
 
 function removeTrajectory() {
@@ -64,5 +66,5 @@ watch(ctx.objects, () => {
 </script>
 
 <template>
-  <div></div>
+  <div class="hidden" />
 </template>
