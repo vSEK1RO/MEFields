@@ -17,12 +17,19 @@ export namespace IElectricFieldWorker {
     percentage?: number
     err?: DOMException
   }
+
+  export namespace Responce {
+    export type Vectors = {
+      dir: THREE.Vector3,
+      pos: THREE.Vector3,
+    }[]
+  }
 }
 
 const k = 9e9
 
 export function calcElectricField(pos: THREE.Vector3, objs: IObject[]) {
-  const res = new THREE.Vector3()
+  const dir = new THREE.Vector3()
   objs.forEach(obj => {
     if (obj.userData.type !== 'CHARGE') return
     const charge = obj as ICharge
@@ -30,9 +37,9 @@ export function calcElectricField(pos: THREE.Vector3, objs: IObject[]) {
     const distance = vec.length()
 
     vec.normalize().multiplyScalar(k * charge.userData.charge / distance ** 2)
-    res.add(vec)
+    dir.add(vec)
   })
-  return res
+  return { dir, pos }
 }
 
 self.onmessage = (event: MessageEvent<IElectricFieldWorker.Request>) => {

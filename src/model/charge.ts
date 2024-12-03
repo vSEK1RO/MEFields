@@ -32,6 +32,17 @@ export function createCharge(ctx: IAppContext, obj: ICharge) {
   ctx.scene.add(obj.three)
 }
 
+export function createElectricVector(dir: THREE.Vector3, pos: THREE.Vector3) {
+  const _dir = new THREE.Vector3(dir.x, dir.y, dir.z)
+  const _pos = new THREE.Vector3(pos.x, pos.y, pos.z)
+  return new THREE.ArrowHelper(
+    _dir.clone().normalize(),
+    _pos,
+    _dir.length(),
+    0x0000FF,
+  )
+}
+
 export function getCharges(obj: THREE.Object3D) {
   const mesh = obj as THREE.Mesh
   const charges: ICharge[] = []

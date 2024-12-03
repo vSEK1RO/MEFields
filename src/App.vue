@@ -9,7 +9,10 @@ import { IObject } from './model'
 export const KEY_APP: InjectionKey<IAppContext> = Symbol('app')
 export interface IAppContext {
   scene: THREE.Scene
+  camera: THREE.PerspectiveCamera
+  camera_pos: Ref<THREE.Vector3>
   objects: IObject[]
+  electric: THREE.Object3D[]
   loadedName: Ref<string | null>
 }
 </script>
@@ -23,8 +26,10 @@ scene.background = new THREE.Color(0xFFFFFF)
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position.set(5, 5, 5)
+const camera_pos = ref(camera.position.clone())
 
 const controls = new OrbitControls(camera, renderer.domElement)
+controls.addEventListener('change', () => { camera_pos.value = camera.position })
 controls.enableDamping = true
 controls.dampingFactor = 0.05
 controls.enableZoom = true
@@ -33,7 +38,10 @@ controls.autoRotateSpeed = 0
 
 provide(KEY_APP, {
   scene,
+  camera,
+  camera_pos,
   objects: [],
+  electric: [],
   loadedName: ref(null),
 })
 
