@@ -11,7 +11,7 @@ export interface IAppContext {
   scene: THREE.Scene
   camera: THREE.PerspectiveCamera
   camera_pos: Ref<THREE.Vector3>
-  objects: IObject[]
+  objects: Ref<IObject[]>
   electric: THREE.Object3D[]
   loadedName: Ref<string | null>
 }
@@ -29,7 +29,7 @@ camera.position.set(5, 5, 5)
 const camera_pos = ref(camera.position.clone())
 
 const controls = new OrbitControls(camera, renderer.domElement)
-controls.addEventListener('change', () => { camera_pos.value = camera.position })
+controls.addEventListener('change', () => { camera_pos.value = camera.position.clone() })
 controls.enableDamping = true
 controls.dampingFactor = 0.05
 controls.enableZoom = true
@@ -40,7 +40,7 @@ provide(KEY_APP, {
   scene,
   camera,
   camera_pos,
-  objects: [],
+  objects: ref([]),
   electric: [],
   loadedName: ref(null),
 })

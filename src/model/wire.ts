@@ -23,7 +23,7 @@ export function createWire(ctx: IAppContext, obj: IWire) {
   geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
 
   obj.three = new THREE.Line(geometry, material)
-  ctx.objects.push(obj)
+  ctx.objects.value.push(obj)
   ctx.scene.add(obj.three)
 }
 

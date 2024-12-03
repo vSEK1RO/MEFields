@@ -28,7 +28,7 @@ export function createCharge(ctx: IAppContext, obj: ICharge) {
   }
   obj.three = new THREE.Mesh(sphereGeometry, material)
   obj.three.position.copy(obj.position)
-  ctx.objects.push(obj)
+  ctx.objects.value.push(obj)
   ctx.scene.add(obj.three)
 }
 

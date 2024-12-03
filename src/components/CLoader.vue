@@ -53,12 +53,12 @@ function loadModel(file: File) {
 }
 
 function uploadModel() {
-  ctx.objects.forEach(object => {
+  ctx.objects.value.forEach(object => {
     if (object.three) {
       ctx.scene.remove(object.three)
     }
   })
-  ctx.objects = []
+  ctx.objects.value = []
   ctx.loadedName.value = null
 }
 
