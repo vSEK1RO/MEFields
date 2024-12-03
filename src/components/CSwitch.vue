@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T1, T2">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps<{
   active?: T1
@@ -27,6 +27,11 @@ function onClick() {
     emit('inactive', props.inactive)
   }
 }
+
+onMounted(() => {
+  emit('active', props.active)
+  emit('inactive', props.inactive)
+})
 </script>
 
 <template>

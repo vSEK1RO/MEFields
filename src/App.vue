@@ -1,9 +1,9 @@
 <script lang="ts">
 import type { InjectionKey, Ref } from 'vue'
 import * as THREE from 'three'
-import { provide, onMounted, ref } from 'vue'
+import { provide, onMounted, ref, inject } from 'vue'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
-import { CLoader, CElectricField, CMagneticField } from './components'
+import { CLoader, CElectricField, CMagneticField, CSwitch } from './components'
 import { IObject } from './model'
 
 export const KEY_APP: InjectionKey<IAppContext> = Symbol('app')
@@ -14,6 +14,7 @@ export interface IAppContext {
   objects: Ref<IObject[]>
   electric: THREE.Object3D[]
   loadedName: Ref<string | null>
+  workerEnabled: Ref<boolean>
 }
 </script>
 
@@ -36,14 +37,17 @@ controls.enableZoom = true
 controls.autoRotate = true
 controls.autoRotateSpeed = 0
 
-provide(KEY_APP, {
+const ctx = {
   scene,
   camera,
   camera_pos,
   objects: ref([]),
   electric: [],
   loadedName: ref(null),
-})
+  workerEnabled: ref(false),
+}
+
+provide(KEY_APP, ctx)
 
 onMounted(() => {
   document.getElementById('renderer')?.appendChild(renderer.domElement)
@@ -61,6 +65,14 @@ onMounted(() => {
       <c-loader/>
       <c-electric-field/>
       <c-magnetic-field/>
+      <c-switch
+        is-active
+        @active="ctx.workerEnabled.value = true"
+        @inactive="ctx.workerEnabled.value = false"
+      >
+        <span v-if="!ctx.workerEnabled.value"> Enable workers </span>
+        <span v-else> Disable workers </span>
+      </c-switch>
     </div>
   </div>
 </template>

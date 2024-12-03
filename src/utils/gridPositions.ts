@@ -5,7 +5,7 @@ import { parseVector3 } from './parseVector3'
 export const OFFSET = 5
 export const STEP = 0.5
 export const COUNTX = 40
-export const COUNTY = 17
+export const COUNTY = 20
 
 export interface ICameraBox {
   position_json: string,

@@ -1,14 +1,14 @@
 <script lang="ts">
-export function useCameraBox() {
+export function useCameraBox(ctx: IAppContext) {
   return {
-    camera_box: ref<ICameraBox>()
+    camera_box: ref<ICameraBox>(cameraBox(ctx))
   }
 }
 </script>
 
 <script setup lang="ts">
 import { inject, onMounted, ref, watch } from 'vue';
-import { KEY_APP } from '../App.vue';
+import { IAppContext, KEY_APP } from '../App.vue';
 import { cameraBox, ICameraBox } from '../utils/gridPositions';
 
 const ctx = inject(KEY_APP)!
