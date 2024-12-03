@@ -37,6 +37,7 @@ function computeField() {
       const vec = calcElectricField(pos, ctx.objects.value)
       return createElectricVector(vec.dir, vec.pos)
     })
+    removeField()
     vectors.forEach(vec => {
       ctx.electric.push(vec)
       ctx.scene.add(vec)

@@ -49,4 +49,5 @@ self.onmessage = (event: MessageEvent<IElectricFieldWorker.Request>) => {
   self.postMessage({status: 'LOADING', percentage: 50 } as IElectricFieldWorker.Response)
   const vectors = positions.map(pos => calcElectricField(pos, objs))
   self.postMessage({status: 'LOADED', vectors_json: JSON.stringify(vectors) } as IElectricFieldWorker.Response)
+  self.close()
 }

@@ -22,9 +22,11 @@ self.onmessage = (event: MessageEvent<ILoadModelWorker.Request>) => {
     loader.register(parser => new GLTFCurveExtension(parser))
     loader.load(fileURL, (gltf: GLTF) => {
       self.postMessage({status: 'LOADED', scene_json: gltf.scene.toJSON() } as ILoadModelWorker.Response)
+      self.close()
     }, (progress: ProgressEvent) => {
       self.postMessage({status: 'LOADING', percentage: progress.loaded / event.data.file.size * 100 } as ILoadModelWorker.Response)
     }, (err: unknown) => {
       self.postMessage({status: 'ERROR', err } as ILoadModelWorker.Response)
+      self.close()
     })
 }
