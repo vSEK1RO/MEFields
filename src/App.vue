@@ -3,7 +3,7 @@ import type { InjectionKey, Ref } from 'vue'
 import * as THREE from 'three'
 import { provide, onMounted, ref } from 'vue'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
-import { CLoader, CElectricField, CMagneticField, CSwitch } from './components'
+import { CLoader, CElectricField, CMagneticField, CSwitch, CParticleTrajectory } from './components'
 import { IObject, createAxis } from './model'
 
 export const KEY_APP: InjectionKey<IAppContext> = Symbol('app')
@@ -14,6 +14,7 @@ export interface IAppContext {
   objects: Ref<IObject[]>
   electric: THREE.Object3D[]
   magnetic: THREE.Object3D[]
+  trajectory: THREE.Object3D[]
   loadedName: Ref<string | null>
   workerEnabled: Ref<boolean>
 }
@@ -46,6 +47,7 @@ const ctx = {
   objects: ref([]),
   electric: [],
   magnetic: [],
+  trajectory: [],
   loadedName: ref(null),
   workerEnabled: ref(false),
 }
@@ -68,6 +70,7 @@ onMounted(() => {
       <c-loader/>
       <c-electric-field/>
       <c-magnetic-field/>
+      <c-particle-trajectory/>
       <c-switch
         is-active
         @active="ctx.workerEnabled.value = true"

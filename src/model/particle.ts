@@ -44,8 +44,6 @@ export function getParticle(obj: THREE.Object3D) {
   const mesh = obj as THREE.Mesh
   const userData = mesh.userData as IParticle.UserData
 
-  console.log(mesh)
-
   return {
     userData: {
       type: userData.type,
