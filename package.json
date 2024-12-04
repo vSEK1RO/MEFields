@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@iconify-json/material-symbols": "^1.2.8",
+    "@types/three": "^0.170.0",
     "element-plus": "^2.8.8",
     "three": "^0.170.0",
     "unocss-preset-fluid": "^1.0.2",

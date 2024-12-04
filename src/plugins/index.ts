@@ -1,0 +1,1 @@
+export { GLTFCurveExtension } from './GLTFCurveExtension.js'
