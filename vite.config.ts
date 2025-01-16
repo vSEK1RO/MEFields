@@ -7,7 +7,7 @@ import UnoCSS from 'unocss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/MEFiedls/',
+  base: '/MEFields/',
   plugins: [
     vue(),
     UnoCSS(),

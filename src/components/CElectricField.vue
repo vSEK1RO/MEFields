@@ -2,7 +2,7 @@
 import { inject, watch, ref } from 'vue';
 import { CSwitch, CCameraBox } from '.';
 import { KEY_APP } from '../App.vue';
-import { IElectricFieldWorker } from '../workers';
+import { IFieldWorker } from '../workers';
 import { createElectricVector } from '../model';
 import { useCameraBox } from './CCameraBox.vue';
 import { gridPositions } from '../utils/gridPositions';
@@ -16,11 +16,11 @@ const { camera_box } = useCameraBox(ctx)
 function computeField() {
   if (ctx.workerEnabled.value) {
     const worker = new Worker(new URL('../workers/electricField.ts', import.meta.url), { type: 'module' });
-    worker.onmessage = (event: MessageEvent<IElectricFieldWorker.Response>) => {
+    worker.onmessage = (event: MessageEvent<IFieldWorker.Response>) => {
       if (event.data.status === 'LOADED') {
         if (!active.value) return
         removeField()
-        const vectors: IElectricFieldWorker.Responce.Vectors = JSON.parse(event.data.vectors_json)
+        const vectors: IFieldWorker.Response.Vectors = JSON.parse(event.data.vectors_json)
         vectors.forEach(vector => {
           const vec = createElectricVector(vector.dir, vector.pos)
           ctx.electric.push(vec)
@@ -31,7 +31,7 @@ function computeField() {
     worker.postMessage({
       objs_json: JSON.stringify(ctx.objects.value),
       camera_box_json: JSON.stringify(camera_box.value),
-    } as IElectricFieldWorker.Request)
+    } as IFieldWorker.Request)
   } else {
     const vectors = gridPositions(camera_box.value).map(pos => {
       const vec = calcElectricField(pos, ctx.objects.value)

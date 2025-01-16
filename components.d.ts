@@ -14,5 +14,7 @@ declare module 'vue' {
     CParticleTrajectory: typeof import('./src/components/CParticleTrajectory.vue')['default']
     CSwitch: typeof import('./src/components/CSwitch.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElRange: typeof import('element-plus/es')['ElRange']
+    ElSlider: typeof import('element-plus/es')['ElSlider']
   }
 }
