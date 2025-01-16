@@ -39,6 +39,6 @@ self.onmessage = (event: MessageEvent<IFieldWorker.Request>) => {
 
   self.postMessage({status: 'LOADING', percentage: 50 } as IFieldWorker.Response)
   const vectors = positions.map(pos => calcMagneticField(pos, objs))
-  self.postMessage({status: 'LOADED', vectors_json: JSON.stringify(vectors) } as IFieldWorker.Response)
+  self.postMessage({status: 'LOADED', vectors_json: JSON.stringify(vectors), camera_box_json: event.data.camera_box_json } as IFieldWorker.Response)
   self.close()
 }

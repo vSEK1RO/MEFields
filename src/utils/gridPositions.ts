@@ -29,13 +29,21 @@ export function cameraBox(ctx: IAppContext): ICameraBox {
   }
 }
 
-export function gridPositions(camera_box: ICameraBox) {
+export function parseCameraBox(camera_box: ICameraBox) {
   const x_axis = parseVector3(camera_box.x_axis_json).normalize()
   const y_axis = parseVector3(camera_box.y_axis_json).normalize()
-  const position = parseVector3(camera_box.position_json)
-    .sub(x_axis.clone().multiplyScalar(STEP * COUNTX / 2))
-    .add(y_axis.clone().multiplyScalar(STEP * COUNTY / 2))
-  
+  return {
+    x_axis,
+    y_axis,
+    position: parseVector3(camera_box.position_json)
+      .sub(x_axis.clone().multiplyScalar(STEP * COUNTX / 2))
+      .add(y_axis.clone().multiplyScalar(STEP * COUNTY / 2)),
+  }
+}
+
+export function gridPositions(camera_box: ICameraBox) {
+  const { x_axis, y_axis, position } = parseCameraBox(camera_box)
+
   const positions: THREE.Vector3[] = []
   for (let x = 0; x < COUNTX; x++) {
     for (let y = 0; y < COUNTY; y++) {
@@ -47,4 +55,13 @@ export function gridPositions(camera_box: ICameraBox) {
     }
   }
   return positions
+}
+
+export function transform(vec: THREE.Vector3, camera_box: ICameraBox) {
+  const { x_axis, y_axis, position } = parseCameraBox(camera_box)
+
+  return position.clone()
+    .addScaledVector(y_axis, vec.y)
+    .addScaledVector(x_axis, vec.x)
+    .addScaledVector(new THREE.Vector3().crossVectors(x_axis, y_axis), vec.z)
 }

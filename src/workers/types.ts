@@ -18,6 +18,7 @@ export namespace IFieldWorker {
   }
 
   export interface Response {
+    camera_box_json: string
     status: IWorker.Status
     vectors_json: string
     percentage?: number
